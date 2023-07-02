@@ -13,11 +13,11 @@ import jakarta.persistence.Table;
 public class MyBankDB {
 	
 	@Id
-	private Integer accountNum=null;
+	private Integer accountNum;
 	@Column 
-	private Integer accountBal=null;
+	private Integer accountBal;
 	@Column
-	private String userName=null;
+	private String userName;
 	
 public Integer getAccountNum() {
 		return accountNum;
@@ -36,6 +36,10 @@ public Integer getAccountNum() {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	@Override
+	public String toString() {
+		return "MyBankDB [accountNum=" + accountNum + ", accountBal=" + accountBal + ", userName=" + userName + "]";
 	}
 
 	

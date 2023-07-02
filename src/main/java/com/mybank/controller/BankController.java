@@ -2,6 +2,7 @@ package com.mybank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,14 +34,25 @@ public ResponseEntity<MyBankDB> createUser(@RequestBody MyBankDB db)
 return ResponseEntity.ok(db);
 }
 
-@PutMapping(value="mybank/{addBal}")
-public void addBal(@RequestBody MyBankDB db,@PathVariable("addBal") Integer amount)
+@GetMapping("/mybank/{id}")
+public ResponseEntity<MyBankDB> findUser(@PathVariable("id") Integer id)
 {
-	bankService.addBalance(db,amount);
+MyBankDB Id = bankService.getById(id);
+return ResponseEntity.ok(Id);
 }
-@DeleteMapping(value="mybank/{withdraw}")
-public void withdraw(@RequestBody MyBankDB db,@PathVariable("withdraw") Integer amount)
-{
-	bankService.withdrawbal(db, amount);
+
+@PutMapping("/mybank/{id}/{amount}")
+public ResponseEntity<Void> credit(@PathVariable("id") Integer id, @PathVariable("amount") Integer amount) {
+    bankService.addBalance(id,amount);
+    return ResponseEntity.ok().build();
 }
+
+@DeleteMapping("/mybank/{id}/{amount}")
+public ResponseEntity<Void> debit(@PathVariable("id") Integer id, @PathVariable("amount") Integer amount) {
+    bankService.withdrawBalance(id,amount);
+    return ResponseEntity.ok().build();
+}
+
+
+
 }

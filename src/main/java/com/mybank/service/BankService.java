@@ -10,32 +10,31 @@ public class BankService {
 
 @Autowired
 BankRepository bankRepository;
-@Autowired
-MyBankDB myBankDB;
 
 public void createUser(MyBankDB db)
 {
 bankRepository.save(db);
 }
 
-public void addBalance(MyBankDB db,Integer Amount)
-{
-//Integer currentBal=5500;
-Integer currentBal=db.getAccountBal().intValue();
-db.setAccountBal(currentBal+Amount);
-bankRepository.save(db);
+public MyBankDB getById(Integer id) {
+    return bankRepository.findById(id).orElse(null);
 }
 
-public void withdrawbal(MyBankDB db,Integer Amount)
-{
-Integer currentBal = db.getAccountBal().intValue();
-db.setAccountBal(currentBal-Amount);
-bankRepository.save(db);
+public void addBalance(Integer id, Integer Amount) {
+    MyBankDB db = bankRepository.findById(id).orElse(null);
+    if (db != null) {
+    	Integer accountBal = db.getAccountBal();
+        db.setAccountBal(accountBal+Amount);
+        bankRepository.save(db);  }
+    }
+    public void withdrawBalance(Integer id, Integer Amount) {
+        MyBankDB db = bankRepository.findById(id).orElse(null);
+        if (db != null) {
+        	Integer accountBal = db.getAccountBal();
+            db.setAccountBal(accountBal-Amount);
+            bankRepository.save(db);
+        }
+    
+}
 }
 
-public Integer checkBalance()
-{
-	Integer currentBal = myBankDB.getAccountBal();
-	return currentBal; 
-}
-}
