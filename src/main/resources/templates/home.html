@@ -17,14 +17,14 @@
   <input type="submit" value="Submit">
     </form>
   
-    <form action="/mybank/credit/{id}/{amount}" method="get" >
+    <form th:action="@{/mybank/credit/{id}/{amount}}" method="get" >
         
   <label for="id">Account Number:</label><br>
-  <input type="number" id="id" name="id" required><br>
+  <input type="number" id="id"  name="id" required><br>
   
   <label for="amount">Amount:</label><br>
-  <input type="number" id="amount" name="amount" required><br>
- 
+  <input type="number" id="amount"  name="amount" required><br>
+  
        <p><input type="submit" value="Submit" />
        <input type="reset" value="Reset" /></p>
     </form>

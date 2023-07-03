@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import com.mybank.database.MyBankDB;
@@ -46,9 +47,7 @@ public class BankController {
 	}
 
 	@GetMapping("/mybank/credit/{id}/{amount}")
-	public ResponseEntity<Void> credit(@PathVariable("id")int id, @PathVariable("amount") int amount) {
-		//Integer newid  = Integer.parseInt(id);
-		//Integer newamount  = Integer.parseInt(amount);
+	public ResponseEntity<Void> credit(@RequestParam("id") Integer id, @RequestParam("amount") Integer amount) {
 		bankService.addBalance(id , amount);
 		return ResponseEntity.ok().build();
 	}
