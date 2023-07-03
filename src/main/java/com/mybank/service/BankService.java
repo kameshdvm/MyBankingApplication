@@ -1,5 +1,7 @@
 package com.mybank.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mybank.database.BankRepository;
@@ -20,6 +22,14 @@ public MyBankDB getById(Integer id) {
     return bankRepository.findById(id).orElse(null);
 }
 
+
+public Integer checkBalance(Integer id)
+{
+MyBankDB db = bankRepository.findById(id).orElse(null);
+Integer accountBal = db.getAccountBal();
+return accountBal;
+}
+
 public void addBalance(Integer id, Integer Amount) {
     MyBankDB db = bankRepository.findById(id).orElse(null);
     if (db != null) {
@@ -34,6 +44,8 @@ public void addBalance(Integer id, Integer Amount) {
             db.setAccountBal(accountBal-Amount);
             bankRepository.save(db);
         }
+      
+      
     
 }
 }
