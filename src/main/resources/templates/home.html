@@ -5,17 +5,28 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<h1>Form</h1>
-    <form th:action="@{mybank/create}" method="post" th:object="${formData}">
-    	<p>accountNum<input type="text" id="accountNum" /></p>
-        <p>accountBal<input type="text" id="accountBal" /></p>
-        <p>userName<input type="text" id="userName" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>
+	<h1>Create Form</h1><br>
+    <form th:action="@{/mybank/create}" method="post" th:object="${newUser}">
     
-    <form th:action="@{/mybank/{addBal}}" method="get" >
-        <p>addBalance<input type="text" id="addBal" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+  <label for="accountBal">Account Balance:</label><br>
+  <input type="text" id="accountBal" name="accountBal" required><br>
+  
+  <label for="userName">User Name:</label><br>
+  <input type="text" id="userName" name="userName" required><br>
+  
+  <input type="submit" value="Submit">
+    </form>
+  
+    <form action="/mybank/credit/{id}/{amount}" method="get" >
+        
+  <label for="id">Account Number:</label><br>
+  <input type="number" id="id" name="id" required><br>
+  
+  <label for="amount">Amount:</label><br>
+  <input type="number" id="amount" name="amount" required><br>
+ 
+       <p><input type="submit" value="Submit" />
+       <input type="reset" value="Reset" /></p>
     </form>
 </body>
 </html>

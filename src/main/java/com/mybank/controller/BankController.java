@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,15 +20,17 @@ public class BankController {
 	BankService bankService;
 
 	@GetMapping(value = "/mybank")
-	public ModelAndView index(ModelAndView modelandview) {
+	public ModelAndView homePage(ModelAndView modelandview) {
 		modelandview.setViewName("home");
 		return modelandview;
 	}
 
-	@PostMapping(value = "mybank/create")
-	public ResponseEntity<MyBankDB> createUser(@RequestBody MyBankDB db) {
+	@PostMapping(value = "/mybank/create")
+	public ModelAndView createUser(@ModelAttribute("newUser") MyBankDB db, ModelAndView modelandview ) {
 		bankService.createUser(db);
-		return ResponseEntity.ok(db);
+		modelandview.addObject(db);
+		modelandview.setViewName("result");
+		return modelandview;
 	}
 
 	@GetMapping("/mybank/user/{id}")
@@ -42,9 +45,11 @@ public class BankController {
 		return ResponseEntity.ok(Balance);
 	}
 
-	@PutMapping("/mybank/{id}/{amount}")
-	public ResponseEntity<Void> credit(@PathVariable("id") Integer id, @PathVariable("amount") Integer amount) {
-		bankService.addBalance(id, amount);
+	@GetMapping("/mybank/credit/{id}/{amount}")
+	public ResponseEntity<Void> credit(@PathVariable("id")int id, @PathVariable("amount") int amount) {
+		//Integer newid  = Integer.parseInt(id);
+		//Integer newamount  = Integer.parseInt(amount);
+		bankService.addBalance(id , amount);
 		return ResponseEntity.ok().build();
 	}
 
