@@ -1,32 +1,89 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head> 
-    <title>Getting Started: Handling Form Submission</title>
+    <title>MyBank</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   
+    <style>
+    .form-container {
+      display: inline-block;
+      justify-content: center;
+      align-items: center;
+      width: 25%;
+      margin: 2%;
+      background-color:#164B60;
+      color:#A2FF86;
+    }
+    .body
+    {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#176B87;
+    margin:2%;
+    }
+    .form-container h1 {
+      color:#FF9EAA;
+      text-align: center;
+    }
+ body {
+      font-family: Arial, sans-serif;
+      background-color:#A1C2F1;
+      color: #333333;
+      margin: 0;
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
-	<h1>Create Form</h1><br>
-    <form th:action="@{/mybank/create}" method="post" th:object="${newUser}">
-    
-  <label for="accountBal">Account Balance:</label><br>
-  <input type="text" id="accountBal" name="accountBal" required><br>
-  
-  <label for="userName">User Name:</label><br>
-  <input type="text" id="userName" name="userName" required><br>
-  
-  <input type="submit" value="Submit">
-    </form>
-  
-    <form th:action="@{/mybank/credit/{id}/{amount}}" method="get" >
-        
-  <label for="id">Account Number:</label><br>
+<div class="body">
+  <div class="form-container">
+<h1>Check Balance</h1><br>
+<div class="body">
+ <form th:action="@{/mybank/balance/{id}}" method="get" >
+  <label for="id">Enter your Account Number</label><br>
   <input type="number" id="id"  name="id" required><br>
-  
-  <label for="amount">Amount:</label><br>
+  <p><input type="submit" value="Submit" />
+  <input type="reset" value="Reset" /></p>
+  <input type="hidden"><br>
+  <input type="hidden"><br>
+ </form>
+ </div></div>
+ <div class="form-container">
+	<h1>Create New User</h1><br>
+<div class="body">
+    <form th:action="@{/mybank/create}" method="post" th:object="${newUser}">
+  <label for="accountBal">Enter Amount you Deposit</label><br>
+  <input type="text" id="accountBal" name="accountBal" required><br>
+  <label for="userName">Enter Your Name</label><br>
+  <input type="text" id="userName" name="userName" required><br>
+ <p> <input type="submit" value="Submit"><input type="reset" value="Reset" /></p>
+    </form>
+  </div></div>
+  <div class="form-container">
+	<h1>Deposit</h1><br>
+  <div class="body">
+    <form th:action="@{/mybank/credit/{id}/{amount}}" method="get" >
+  <label for="id">Enter the Account Number</label><br>
+  <input type="number" id="id"  name="id" required><br>
+  <label for="amount">Enter Deposit Amount</label><br>
   <input type="number" id="amount"  name="amount" required><br>
-  
        <p><input type="submit" value="Submit" />
        <input type="reset" value="Reset" /></p>
     </form>
+    </div></div>
+    <div class="form-container">
+    <h1>Withdraw</h1><br>
+    <div class="body">
+     <form th:action="@{/mybank/debit/{id}/{amount}}" method="get" >    
+  <label for="id">Enter the Account Number</label><br>
+  <input type="number" id="id"  name="id" required><br>
+  <label for="amount">Enter Withdrawal Amount</label><br>
+  <input type="number" id="amount"  name="amount" required><br>
+       <p><input type="submit" value="Submit" />
+       <input type="reset" value="Reset" /></p>
+    </form>
+    </div></div>
+</div>
 </body>
 </html>

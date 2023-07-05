@@ -1,7 +1,10 @@
 package com.mybank.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+
 import com.mybank.database.MyBankDB;
 import com.mybank.service.BankService;
 
@@ -21,11 +26,11 @@ public class BankController {
 	BankService bankService;
 
 	@GetMapping(value = "/mybank")
-	public ModelAndView homePage(ModelAndView modelandview) {
-		modelandview.setViewName("home");
-		return modelandview;
+	public ModelAndView homePage(ModelAndView view) {
+		view.setViewName("home");
+		return view;
 	}
-
+	
 	@PostMapping(value = "/mybank/create")
 	public ModelAndView createUser(@ModelAttribute("newUser") MyBankDB db, ModelAndView modelandview ) {
 		bankService.createUser(db);
@@ -35,27 +40,46 @@ public class BankController {
 	}
 
 	@GetMapping("/mybank/user/{id}")
-	public ResponseEntity<MyBankDB> findUser(@PathVariable("id") Integer id) {
+	public ResponseEntity<MyBankDB> findUser(@RequestParam("id") Integer id) {
 		MyBankDB user = bankService.getById(id);
 		return ResponseEntity.ok(user);
 	}
 
 	@GetMapping("/mybank/balance/{id}")
-	public ResponseEntity<Integer> checkBalance(@PathVariable("id") Integer id) {
+	public ResponseEntity checkBalance(@RequestParam("id") Integer id) {
 		Integer Balance = bankService.checkBalance(id);
-		return ResponseEntity.ok(Balance);
+		String msg="Your current Balance is: ";
+		return ResponseEntity.ok(msg+Balance);
 	}
 
 	@GetMapping("/mybank/credit/{id}/{amount}")
-	public ResponseEntity<Void> credit(@RequestParam("id") Integer id, @RequestParam("amount") Integer amount) {
+	public ResponseEntity credit(@RequestParam("id") Integer id, @RequestParam("amount") Integer amount) {
 		bankService.addBalance(id , amount);
-		return ResponseEntity.ok().build();
+		Integer Balance = bankService.checkBalance(id);
+		String msg="Transaction Successfull! Your current Balance is: ";
+		return ResponseEntity.ok(msg+Balance);
 	}
 
-	@DeleteMapping("/mybank/{id}/{amount}")
-	public ResponseEntity<Void> debit(@PathVariable("id") Integer id, @PathVariable("amount") Integer amount) {
-		bankService.withdrawBalance(id, amount);
-		return ResponseEntity.ok().build();
+	@GetMapping("/mybank/debit/{id}/{amount}")
+	public ResponseEntity debit(@RequestParam("id") Integer id, @RequestParam("amount") Integer amount) {
+		Integer Balance = bankService.checkBalance(id);
+		if(amount<Balance)
+		{
+			bankService.withdrawBalance(id, amount);
+			Integer currentBalance = bankService.checkBalance(id);
+			String msg="Transaction Successfull! Your current Balance is: ";
+			return ResponseEntity.ok(msg+currentBalance);
+				
+		}
+		return ResponseEntity.ok("Withdrawal amount exceeded");
+	
+		/*
+		 * @GetMapping(value="/mybank/allusers") public ModelAndView
+		 * allUsers(ModelAndView model) { List<MyBankDB> users = bankService.findAll();
+		 * ModelAndView addAllAttributes = model.addObject(users); return
+		 * addAllAttributes; }
+		 */
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.mybank.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,11 @@ public MyBankDB getById(Integer id) {
     return bankRepository.findById(id).orElse(null);
 }
 
-
+public List<MyBankDB> findAll()
+{
+	List<MyBankDB> allUsers = bankRepository.findAll();
+	return allUsers;
+}
 public Integer checkBalance(Integer id)
 {
 MyBankDB db = bankRepository.findById(id).orElse(null);
