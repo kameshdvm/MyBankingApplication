@@ -1,0 +1,32 @@
+.form-container {
+      display: inline-block;
+      align-content:center;
+      justify-content: center;
+      align-items: center;
+      margin: 2%;
+      background-color:#164B60;
+      color:#A2FF86;
+      width: 60%;
+    }
+    .body
+    {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#176B87;
+    margin:2%;
+    }
+    .form-container h1 {
+      color:#FF9EAA;
+      text-align: center;
+    }
+ body {
+ padding-left:25%;
+ 	  align-content:center;
+ 	  justify-content: center;
+ 	  align-items: center;
+      font-family: Arial, sans-serif;
+      background-color:#A1C2F1;
+      color: #333333;  
+    }

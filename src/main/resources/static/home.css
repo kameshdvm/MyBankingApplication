@@ -1,0 +1,51 @@
+.form-container {
+      display: inline-block;
+      justify-content: center;
+      align-items: center;
+      width: 25%;
+      margin: 2%;
+      background-color:#164B60;
+      color:#A2FF86;
+    }
+    .body-outer
+    {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#176B87;
+    margin:2%;
+    }
+      .form-container h1 {
+      color:#FF9EAA;
+      text-align:center;
+      }
+      body {
+ 	  justify-content: center;
+ 	  align-items: center;
+      font-family: Arial, sans-serif;
+      background-color:#A1C2F1;
+      color: #333333;
+      margin: 0;
+      padding: 20px;
+    }
+    .form-container-top
+    {
+      display: inline-block;
+      align-items:center;
+      align-content:center;
+      width: 25%;
+      margin: 2%;
+      background-color:#164B60;
+      color:#A2FF86;
+    }
+    .body-outer-top
+    {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#176B87;
+    margin:2%;
+    padding-left:20%;
+    padding-right: 20%; 
+    }
+    

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" th:href="@{/index.css}" />
+    <style>
+    .divider {
+    	    justify-content: center;
+      	    align-items: right;
+             }
+        </style>
+</head>
+<body>
+<div class="divider">
+<div class="form-container">
+    <h1>Login</h1><br>
+<div class="body">    
+    <form  th:action="@{/login}" th:object="${validate}" method="post">
+            <label for="accountNum">Enter Account Number</label><br>
+            <input type="number" id="accountNum" name="accountNum" /><br>
+            <label for="password">Password</label><br>
+            <input type="password" id="password" name="password" /><br>
+            <button type="submit">Login</button>   
+    </form>
+    </div>
+    </div></div>
+    <div></div>
+<div class="divider">
+<div class="form-container">    
+	<h1>Create New User</h1><br>
+<div class="body">
+    <form th:action="@{/mybank/create}" method="post" th:object="${newUser}">
+  <label for="accountBal">Enter Amount you Deposit</label><br>
+  <input type="text" id="accountBal" name="accountBal" required><br>
+  <label for="userName">Enter Your Name</label><br>
+  <input type="text" id="userName" name="userName" required><br>
+  <label for="Password">Create Password</label><br>
+  <input type="text" id="Password" name="Password" required><br>
+ <p> <input type="submit" value="Submit"><input type="reset" value="Reset" /></p>
+    </form>
+    </div></div>
+  </div>
+  
+</body>
+</html>
