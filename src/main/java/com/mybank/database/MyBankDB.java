@@ -21,6 +21,9 @@ public class MyBankDB {
 	private Integer accountBal;
 	@Column
 	private String userName;
+	@Column
+	private String password;
+	
 	
 public Integer getAccountNum() {
 		return accountNum;
@@ -40,9 +43,18 @@ public Integer getAccountNum() {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
+	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	@Override
 	public String toString() {
-		return "MyBankDB [accountNum=" + accountNum + ", accountBal=" + accountBal + ", userName=" + userName + "]";
+		return "MyBankDB [accountNum=" + accountNum + ", accountBal=" + accountBal + ", userName=" + userName
+				+ ", Password=" + password + "]";
 	}
 
 	

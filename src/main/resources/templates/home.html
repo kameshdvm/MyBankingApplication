@@ -3,43 +3,30 @@
 <head> 
     <title>MyBank</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-   
+   <link rel="stylesheet" th:href="@{/home.css}" />
     <style>
-    .form-container {
-      display: inline-block;
-      justify-content: center;
-      align-items: center;
-      width: 25%;
-      margin: 2%;
-      background-color:#164B60;
-      color:#A2FF86;
-    }
-    .body
-    {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color:#176B87;
-    margin:2%;
-    }
-    .form-container h1 {
-      color:#FF9EAA;
-      text-align: center;
-    }
- body {
-      font-family: Arial, sans-serif;
-      background-color:#A1C2F1;
-      color: #333333;
-      margin: 0;
-      padding: 20px;
-    }
   </style>
 </head>
 <body>
-<div class="body">
+<div class="body-outer">
+
+<div class="form-container">
+<h1>Account Details</h1>
+<div class="body-outer">
+    <h5>Account Number: <span th:text="${userDetails.accountNum}" style="color:white; "></span></h5>
+    <h5>Account Balance: <span th:text="${userDetails.accountBal}" style="color:white;"></span></h5>
+    <h5>User Name: <span th:text="${userDetails.userName}" style="color:white;"></span></h5><br>
+    <h1><a href="/" style="color:red;">Logout</a></h1>
+    </div></div>
+
+</div>
+
+
+<div class="body-outer">
+
   <div class="form-container">
 <h1>Check Balance</h1><br>
-<div class="body">
+<div class="body-outer">
  <form th:action="@{/mybank/balance/{id}}" method="get" >
   <label for="id">Enter your Account Number</label><br>
   <input type="number" id="id"  name="id" required><br>
@@ -49,20 +36,11 @@
   <input type="hidden"><br>
  </form>
  </div></div>
- <div class="form-container">
-	<h1>Create New User</h1><br>
-<div class="body">
-    <form th:action="@{/mybank/create}" method="post" th:object="${newUser}">
-  <label for="accountBal">Enter Amount you Deposit</label><br>
-  <input type="text" id="accountBal" name="accountBal" required><br>
-  <label for="userName">Enter Your Name</label><br>
-  <input type="text" id="userName" name="userName" required><br>
- <p> <input type="submit" value="Submit"><input type="reset" value="Reset" /></p>
-    </form>
-  </div></div>
+
+
   <div class="form-container">
 	<h1>Deposit</h1><br>
-  <div class="body">
+  <div class="body-outer">
     <form th:action="@{/mybank/credit/{id}/{amount}}" method="get" >
   <label for="id">Enter the Account Number</label><br>
   <input type="number" id="id"  name="id" required><br>
@@ -72,9 +50,11 @@
        <input type="reset" value="Reset" /></p>
     </form>
     </div></div>
+    
+    
     <div class="form-container">
     <h1>Withdraw</h1><br>
-    <div class="body">
+    <div class="body-outer">
      <form th:action="@{/mybank/debit/{id}/{amount}}" method="get" >    
   <label for="id">Enter the Account Number</label><br>
   <input type="number" id="id"  name="id" required><br>
@@ -84,6 +64,7 @@
        <input type="reset" value="Reset" /></p>
     </form>
     </div></div>
+    
 </div>
 </body>
 </html>

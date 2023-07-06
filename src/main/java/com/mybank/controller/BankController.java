@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import com.mybank.database.ReceiverBankDB;
 import com.mybank.database.MyBankDB;
 import com.mybank.service.BankService;
 
@@ -24,11 +25,32 @@ import com.mybank.service.BankService;
 public class BankController {
 	@Autowired
 	BankService bankService;
-
-	@GetMapping(value = "/mybank")
-	public ModelAndView homePage(ModelAndView view) {
-		view.setViewName("home");
+	
+	@GetMapping(value="/")
+	public ModelAndView indexPage(ModelAndView view)
+	{
+		view.setViewName("index");
 		return view;
+	}
+	@PostMapping(value="/login")
+	public ModelAndView login(@ModelAttribute("validate") MyBankDB db,ModelAndView mv)
+	{
+		Integer accountNum = db.getAccountNum();
+		String password = db.getPassword();
+	Boolean login = bankService.login(accountNum,password);	
+	if(login)
+	{
+		MyBankDB user = bankService.getById(accountNum);
+		mv.addObject("userDetails",user);
+		mv.setViewName("home");
+	}
+	else
+	{
+		
+		mv.setViewName("index");
+		
+	}
+	return mv;
 	}
 	
 	@PostMapping(value = "/mybank/create")
@@ -38,6 +60,12 @@ public class BankController {
 		modelandview.setViewName("result");
 		return modelandview;
 	}
+
+	/*
+	 * @GetMapping(value = "/mybank") public ModelAndView homePage(ModelAndView
+	 * view) { view.setViewName("home"); return view; }
+	 */
+	
 
 	@GetMapping("/mybank/user/{id}")
 	public ResponseEntity<MyBankDB> findUser(@RequestParam("id") Integer id) {
@@ -72,7 +100,7 @@ public class BankController {
 				
 		}
 		return ResponseEntity.ok("Withdrawal amount exceeded");
-	
+	}
 		/*
 		 * @GetMapping(value="/mybank/allusers") public ModelAndView
 		 * allUsers(ModelAndView model) { List<MyBankDB> users = bankService.findAll();
@@ -80,6 +108,18 @@ public class BankController {
 		 * addAllAttributes; }
 		 */
 
+	@PostMapping(value="/mybank/transaction/{amount}")
+	public ResponseEntity<String> transfer(@ModelAttribute("transfer")ReceiverBankDB receiver,MyBankDB sender,@RequestParam("amount") Integer amount)
+	{
+		boolean transfer = bankService.transfer(receiver, sender, amount);
+		
+		if(transfer)
+		{
+			return ResponseEntity.ok("Transaction Successfull!");
+		}
+		else
+		{
+			return ResponseEntity.ok("Transaction Failed!");
+		}
 	}
-
 }
