@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" th:href="@{/index.css}" />
+</head>
+<body>
+<div class="divider">
+<div class="form-container">
+<h1>Transaction Form</h1>
+<div class="body">
+
+<form th:action="@{/mybank/transaction/{senderAcNum}/{amount}/{SenderPassword}}" method="post" th:object="${transfer}">
+    <label for="accountNum">Receiver Account Number </label>
+    <input type="number" id="accountNum" name="accountNum" required><br><div></div>
+    <label for="userName">Receiver UserName </label>
+    <input type="text" id="userName" name="userName" required><br><div></div>
+    <label for="amount">Transfer Amount </label>
+    <input type="number" id="amount" name="amount" required><br><div></div>
+    <label for="senderAcNum">Your Account Number</label>
+    <input type="number" id="senderAcNum" name="senderAcNum" required><br><div></div>
+    <label for="SenderPassword">Enter Your Password </label>
+    <input type="password" id="SenderPassword" name="SenderPassword" required><br><div></div>
+  <button type="submit">Submit</button>
+</form>
+</div>
+    </div></div>
+</body>
+</html>

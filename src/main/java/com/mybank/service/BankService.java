@@ -38,6 +38,18 @@ if(bankRepository.existsById(id))
 return login;
 }
 
+public Boolean verifyPassword(Integer id,String senderPassword)
+{
+	MyBankDB sender = bankService.getById(id);
+	String AcPassword = sender.getPassword();
+    Boolean verify=false;
+	if(AcPassword.equalsIgnoreCase(senderPassword))
+	{
+		return verify=true;
+	}
+	return verify;
+}
+
 public void createUser(MyBankDB db)
 {
 bankRepository.save(db);
@@ -66,6 +78,15 @@ public void addBalance(Integer id, Integer Amount) {
         db.setAccountBal(accountBal+Amount);
         bankRepository.save(db);  }
     }
+
+public void addBalanceReceiver(Integer id, Integer Amount) {
+    ReceiverBankDB db = receiverRepository.findById(id).orElse(null);
+    if (db != null) {
+    	Integer accountBal = db.getAccountBal();
+        db.setAccountBal(accountBal+Amount);
+        receiverRepository.save(db);  }
+    }
+
     public void withdrawBalance(Integer id, Integer Amount) {
         MyBankDB db = bankRepository.findById(id).orElse(null);
         if (db != null) {
@@ -75,17 +96,20 @@ public void addBalance(Integer id, Integer Amount) {
         }
     }
     
-    public Boolean transfer(ReceiverBankDB receiver,MyBankDB sender,Integer Amount)
+    public Boolean transfer(ReceiverBankDB receiver,Integer senderAcNum,Integer TransferAmount)
     {
     	boolean receiverExist = receiverRepository.existsById(receiver.getAccountNum());
-    	Integer senderAccountBal = sender.getAccountBal();
+    	
+    	Integer senderAccountBal = bankService.checkBalance(senderAcNum);
+    	Integer receiverAccountNum = receiver.getAccountNum();
+    	System.out.println(receiverAccountNum);
     	Boolean error=false;
-    if(senderAccountBal>Amount && receiverExist)
+    	
+    if(senderAccountBal>TransferAmount && receiverExist)
     {    
-    		Integer senderAccountNum = sender.getAccountNum();
-    		Integer receiverAccountNum = receiver.getAccountNum();
-    		bankService.withdrawBalance(senderAccountNum, Amount);
-    		bankService.addBalance(receiverAccountNum, Amount);
+    		
+    		bankService.withdrawBalance(senderAcNum, TransferAmount);
+    		bankService.addBalanceReceiver(receiverAccountNum, TransferAmount);
     }
     else
     {

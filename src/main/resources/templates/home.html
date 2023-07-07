@@ -4,20 +4,30 @@
     <title>MyBank</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
    <link rel="stylesheet" th:href="@{/home.css}" />
+
     <style>
   </style>
 </head>
 <body>
-<div class="body-outer">
 
-<div class="form-container">
+<div class="body-outer-banner">
+<div class="form-container-top">
 <h1>Account Details</h1>
-<div class="body-outer">
-    <h5>Account Number: <span th:text="${userDetails.accountNum}" style="color:white; "></span></h5>
-    <h5>Account Balance: <span th:text="${userDetails.accountBal}" style="color:white;"></span></h5>
-    <h5>User Name: <span th:text="${userDetails.userName}" style="color:white;"></span></h5><br>
-    <h1><a href="/" style="color:red;">Logout</a></h1>
+<div class="body-outer-top">
+	<h3>Welcome <span th:text="${userDetails.userName}" style="color:#F6FA70;"></span>!</h3>
+    <h5>Your Account Number  : <span th:text="${userDetails.accountNum}" style="color:#F6FA70; "></span></h5>
+    <h5>Your Account Balance : <span th:text="${userDetails.accountBal}" style="color:#F6FA70;"></span></h5>
     </div></div>
+
+<div class="form-container-top">
+<h1>Welcome to MYBank</h1>
+</div>
+
+<div style="display: inline-block;width:20%; margin-left:30%;background-color:#164B60;">
+
+    <h1><a style="color:red;" href="/mybank/transfer">Transfer</a></h1>
+    <h1><a href="/" style="color:red;">Logout</a></h1>
+</div>
 
 </div>
 
