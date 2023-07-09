@@ -16,7 +16,7 @@
 <div class="body-outer-top">
 	<h3>Welcome <span th:text="${userDetails.userName}" style="color:#F6FA70;"></span>!</h3>
     <h5>Your Account Number  : <span th:text="${userDetails.accountNum}" style="color:#F6FA70; "></span></h5>
-    <h5>Your Account Balance : <span th:text="${userDetails.accountBal}" style="color:#F6FA70;"></span></h5>
+    <h5>Your Account Balance : <span th:text="${userDetails.accountBal}" style="color:#F6FA70; "></span></h5>
     </div></div>
 
 <div class="form-container-top">
@@ -24,8 +24,6 @@
 </div>
 
 <div style="display: inline-block;width:20%; margin-left:30%;background-color:#164B60;">
-
-    <h1><a style="color:red;" href="/mybank/transfer">Transfer</a></h1>
     <h1><a href="/" style="color:red;">Logout</a></h1>
 </div>
 
@@ -35,16 +33,29 @@
 <div class="body-outer">
 
   <div class="form-container">
-<h1>Check Balance</h1><br>
+<h1>Transfer</h1><br>
 <div class="body-outer">
- <form th:action="@{/mybank/balance/{id}}" method="get" >
+ <!-- <form th:action="@{/mybank/balance/{id}}" method="get" >
   <label for="id">Enter your Account Number</label><br>
   <input type="number" id="id"  name="id" required><br>
   <p><input type="submit" value="Submit" />
   <input type="reset" value="Reset" /></p>
   <input type="hidden"><br>
   <input type="hidden"><br>
- </form>
+ </form> -->
+<form th:action="@{/mybank/transaction/{senderAcNum}/{amount}/{SenderPassword}}" method="post" th:object="${transfer}">
+    <label for="accountNum">Receiver Account Number </label><br>
+    <input type="number" id="accountNum" name="accountNum" required><br>
+    <label for="userName">Receiver UserName </label><br>
+    <input type="text" id="userName" name="userName" required><br>
+    <label for="amount">Transfer Amount </label><br>
+    <input type="number" id="amount" name="amount" required><br>
+    <label for="senderAcNum">Your Account Number</label><br>
+    <input type="number" id="senderAcNum" name="senderAcNum" required><br>
+    <label for="SenderPassword">Enter Your Password </label><br>
+    <input type="password" id="SenderPassword" name="SenderPassword" required><br>
+  <button type="submit">Submit</button>   <button type="reses">Reset</button><br>
+</form>
  </div></div>
 
 

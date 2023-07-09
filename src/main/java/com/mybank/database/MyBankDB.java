@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="mybank")
@@ -20,8 +22,10 @@ public class MyBankDB {
 	@Column 
 	private Integer accountBal;
 	@Column
+	@NotNull(message="User Name must be Not Null")
 	private String userName;
 	@Column
+	@Size(min=5,message="Password Must Be Minimum 5 Letters")
 	private String password;
 	
 	

@@ -1,14 +1,8 @@
 package com.mybank.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.mybank.database.ReceiverBankDB;
-import com.mybank.database.ReceiverRepository;
 import com.mybank.database.BankRepository;
 import com.mybank.database.MyBankDB;
 
@@ -20,9 +14,6 @@ BankService bankService;
 
 @Autowired
 BankRepository bankRepository;
-
-@Autowired
-ReceiverRepository receiverRepository;
 
 public Boolean login(Integer id,String password)
 {
@@ -79,14 +70,6 @@ public void addBalance(Integer id, Integer Amount) {
         bankRepository.save(db);  }
     }
 
-public void addBalanceReceiver(Integer id, Integer Amount) {
-    ReceiverBankDB db = receiverRepository.findById(id).orElse(null);
-    if (db != null) {
-    	Integer accountBal = db.getAccountBal();
-        db.setAccountBal(accountBal+Amount);
-        receiverRepository.save(db);  }
-    }
-
     public void withdrawBalance(Integer id, Integer Amount) {
         MyBankDB db = bankRepository.findById(id).orElse(null);
         if (db != null) {
@@ -96,9 +79,9 @@ public void addBalanceReceiver(Integer id, Integer Amount) {
         }
     }
     
-    public Boolean transfer(ReceiverBankDB receiver,Integer senderAcNum,Integer TransferAmount)
+    public Boolean transfer(MyBankDB receiver,Integer senderAcNum,Integer TransferAmount)
     {
-    	boolean receiverExist = receiverRepository.existsById(receiver.getAccountNum());
+    	boolean receiverExist = bankRepository.existsById(receiver.getAccountNum());
     	
     	Integer senderAccountBal = bankService.checkBalance(senderAcNum);
     	Integer receiverAccountNum = receiver.getAccountNum();
@@ -109,7 +92,7 @@ public void addBalanceReceiver(Integer id, Integer Amount) {
     {    
     		
     		bankService.withdrawBalance(senderAcNum, TransferAmount);
-    		bankService.addBalanceReceiver(receiverAccountNum, TransferAmount);
+    		bankService.addBalance(receiverAccountNum, TransferAmount);
     }
     else
     {

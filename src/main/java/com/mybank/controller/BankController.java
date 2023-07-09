@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import com.mybank.database.ReceiverBankDB;
 import com.mybank.database.MyBankDB;
 import com.mybank.service.BankService;
 
@@ -60,14 +59,19 @@ public class BankController {
 	}
 
 	@GetMapping("/mybank/balance/{id}")
-	public ResponseEntity checkBalance(@RequestParam("id") Integer id) {
+	public ResponseEntity<?> checkBalance(@RequestParam("id") Integer id) {
+		
 		Integer Balance = bankServices.checkBalance(id);
+		if(Balance<500)
+		{
+			throw new NullPointerException("Low Balance "+Balance);
+		}
 		String msg="Your current Balance is: ";
 		return ResponseEntity.ok(msg+Balance);
 	}
 
 	@GetMapping("/mybank/credit/{id}/{amount}")
-	public ResponseEntity credit(@RequestParam("id") Integer id, @RequestParam("amount") Integer amount) {
+	public ResponseEntity<?> credit(@RequestParam("id") Integer id, @RequestParam("amount") Integer amount) {
 		bankServices.addBalance(id , amount);
 		Integer Balance = bankServices.checkBalance(id);
 		String msg="Transaction Successfull! Your current Balance is: ";
@@ -75,7 +79,7 @@ public class BankController {
 	}
 
 	@GetMapping("/mybank/debit/{id}/{amount}")
-	public ResponseEntity debit(@RequestParam("id") Integer id, @RequestParam("amount") Integer amount) {
+	public ResponseEntity<String> debit(@RequestParam("id") Integer id, @RequestParam("amount") Integer amount) {
 		Integer Balance = bankServices.checkBalance(id);
 		if(amount<Balance)
 		{
@@ -101,7 +105,7 @@ public class BankController {
 	}
 	
 	@PostMapping(value="/mybank/transaction/{senderAcNum}/{amount}/{SenderPassword}")
-	public ResponseEntity<String> transfer(@ModelAttribute("transfer")ReceiverBankDB receiver
+	public ResponseEntity<String> transfer(@ModelAttribute("transfer")MyBankDB receiver
 			,@RequestParam("senderAcNum")Integer senderAcNum
 			,@RequestParam("amount") Integer TransferAmount
 			,@RequestParam("SenderPassword")String SenderPassword)
