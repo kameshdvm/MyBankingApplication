@@ -30,12 +30,14 @@
 	<h1>Create New User</h1><br>
 <div class="body">
     <form th:action="@{/mybank/create}" method="post" th:object="${newUser}">
-  <label for="accountBal">Enter Amount you Deposit</label><br>
+  <label for="accountBal">Enter Amount you want to Deposit</label><br>
   <input type="text" id="accountBal" name="accountBal" required><br>
   <label for="userName">Enter Your Name</label><br>
   <input type="text" id="userName" name="userName" required><br>
   <label for="Password">Create Password</label><br>
   <input type="text" id="Password" name="Password" required><br>
+  <label for="email">Enter Email Address</label><br>
+  <input type="email" id="email" name="email" required><br>
  <p> <input type="submit" value="Submit"><input type="reset" value="Reset" /></p>
     </form>
     </div></div>

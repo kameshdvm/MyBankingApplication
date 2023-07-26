@@ -1,6 +1,8 @@
 package com.mybank.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mybank.database.BankRepository;
@@ -99,9 +101,13 @@ public void addBalance(Integer id, Integer Amount) {
     	error=true;
     }
   return error;
-    
-    
     }
+    
+    public void deleteUser(Integer userId)
+    {
+    bankRepository.deleteById(userId);
+    }
+    
     
 }
 

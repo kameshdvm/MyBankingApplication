@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -27,8 +28,10 @@ public class MyBankDB {
 	@Column
 	@Size(min=5,message="Password Must Be Minimum 5 Letters")
 	private String password;
+	@Email
+	private String email;
 	
-	
+
 public Integer getAccountNum() {
 		return accountNum;
 	}
@@ -55,10 +58,17 @@ public Integer getAccountNum() {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	@Override
 	public String toString() {
 		return "MyBankDB [accountNum=" + accountNum + ", accountBal=" + accountBal + ", userName=" + userName
-				+ ", Password=" + password + "]";
+				+ ", password=" + password + ", email=" + email + "]";
 	}
 
 	

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" th:href="@{/index.css}" />
+</head>
+<body>
+
+<div style="display: inline-block;width:20%; margin-left:80%;background-color:#164B60;">
+    <h1><a href="/" style="color:red;">Logout</a></h1>
+</div>
+
+<div class="divider">
+<div class="form-container">
+<h1>ADMIN PAGE</h1>
+<div class="body">
+
+<table border="2">
+        <thead>
+            <tr>
+                <th>Account Number</th>
+                <th>User Name</th>
+                <th>Account Balance</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${allUsers}">
+                <td th:text="${user.accountNum}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.accountBal}"></td>
+                <td th:text="${user.email}"></td>
+            </tr>
+        </tbody>
+    </table>
+       
+</div>
+    </div>
+    </div>
+    
+    <div class="divider">
+    <div class="form-container">
+    <h1>Delete User</h1><br>
+    <div class="body">
+     <form th:action="@{/admin/{accountNum}/{password}}" method="get" >    
+  <label for="id">Enter the User Account Number</label><br>
+  <input type="number" id="accountNum"  name="accountNum" required><br>
+  <label for="amount">Enter Administrator Password</label><br>
+  <input type="password" id="password"  name="password" required><br>
+       <p><input type="submit" value="Submit" />
+       <input type="reset" value="Reset" /></p>
+    </form>
+    </div></div></div>
+    
+    
+</body>
+</html>

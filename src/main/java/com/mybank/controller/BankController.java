@@ -1,45 +1,57 @@
 package com.mybank.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.mybank.database.MyBankDB;
 import com.mybank.service.BankService;
 
-@RestController
+@Controller
 public class BankController {
 	
 	@Autowired
 	private BankService bankServices;
 	
+	private Integer adminUserId=1000;
+	private String adminPassword="password";
+	
 	@GetMapping(value="/")
-	public ModelAndView indexPage(ModelAndView view)
+	public String indexPage()
 	{
-		view.setViewName("index");
-		return view;
+	return "index";	
 	}
+	
 	@PostMapping(value="/login")
 	public ModelAndView login(@ModelAttribute("validate") MyBankDB db,ModelAndView mv)
 	{
 		Integer accountNum = db.getAccountNum();
 		String password = db.getPassword();
-	Boolean login = bankServices.login(accountNum,password);	
-	if(login)
-	{
+		Boolean login = bankServices.login(accountNum,password);
+		
+		if(login)
+		{
 		MyBankDB user = bankServices.getById(accountNum);
 		mv.addObject("userDetails",user);
-		mv.setViewName("home");
+			if(user.getAccountNum().equals(adminUserId) && user.getPassword().equalsIgnoreCase(adminPassword))
+			{
+			List<MyBankDB> users = bankServices.findAll();
+			mv.addObject("allUsers", users);
+			mv.setViewName("admin");
+			}
+			else
+			{	mv.setViewName("home");	 }
 	}
 	else
 	{
-		
 		mv.setViewName("index");
-		
 	}
 	return mv;
 	}
@@ -91,17 +103,11 @@ public class BankController {
 		}
 		return ResponseEntity.ok("Withdrawal amount exceeded");
 	}
-		/*
-		 * @GetMapping(value="/mybank/allusers") public ModelAndView
-		 * allUsers(ModelAndView model) { List<MyBankDB> users = bankService.findAll();
-		 * ModelAndView addAllAttributes = model.addObject(users); return
-		 * addAllAttributes; }
-		 */
+	
 	@GetMapping(value="/mybank/transfer")
-	public ModelAndView transfer(ModelAndView mv)
+	public String transfer()
 	{	
-		mv.setViewName("transfer");
-		return mv;
+		return "transfer";
 	}
 	
 	@PostMapping(value="/mybank/transaction/{senderAcNum}/{amount}/{SenderPassword}")
@@ -123,4 +129,20 @@ public class BankController {
 		{ return ResponseEntity.ok("Transaction Failed!"); }
 	}
 	
+	@GetMapping(value="/admin/{accountNum}/{password}")
+	public ResponseEntity<String> deleteUser(@RequestParam("accountNum") Integer accountNum,@RequestParam("password") String password)
+	{
+		MyBankDB user = bankServices.getById(accountNum);
+		
+		if(password.equalsIgnoreCase(adminPassword) && user!=null)
+		{
+		bankServices.deleteUser(accountNum);
+		return ResponseEntity.ok("User Deleted Sucessfully!");
+		}
+		else
+		{
+			return ResponseEntity.ok("User Not Exist!");
+		}
+		
+	}
 }
